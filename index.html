@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shhuangmust - GitHub 個人檔案</title>
+    <meta name="description" content="shhuangmust 的 GitHub 個人介紹頁面，展示所有公開儲存庫">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0d1117; --surface: #161b22; --surface2: #1c2333;
+            --border: #30363d; --text: #e6edf3; --text2: #8b949e;
+            --accent: #58a6ff; --accent2: #3fb950; --accent3: #f78166;
+            --accent4: #d2a8ff; --gradient1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .particle { position: absolute; border-radius: 50%; background: var(--accent); opacity: 0.15; animation: float 15s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-80px) rotate(180deg); } }
+
+        /* 頂部英雄區域 */
+        .hero { position: relative; z-index: 1; text-align: center; padding: 80px 20px 60px; background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,0.12) 0%, transparent 60%); }
+        .avatar { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--accent); box-shadow: 0 0 40px rgba(88,166,255,0.3); transition: transform 0.4s, box-shadow 0.4s; }
+        .avatar:hover { transform: scale(1.08); box-shadow: 0 0 60px rgba(88,166,255,0.5); }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin: 20px 0 8px; background: linear-gradient(135deg, #58a6ff, #d2a8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero .subtitle { color: var(--text2); font-size: 1.1rem; margin-bottom: 24px; }
+
+        /* 統計數據 */
+        .stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin: 20px 0 10px; }
+        .stat { text-align: center; padding: 12px 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; min-width: 120px; transition: transform 0.3s, border-color 0.3s; }
+        .stat:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
+        .github-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; padding: 12px 28px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s; }
+        .github-btn:hover { background: #79c0ff; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(88,166,255,0.35); }
+        .github-btn svg { width: 20px; height: 20px; }
+
+        /* 主要內容 */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+        .section-title { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+        .section-desc { text-align: center; color: var(--text2); margin-bottom: 40px; }
+
+        /* 篩選器 */
+        .filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+        .filter-btn { padding: 8px 20px; border: 1px solid var(--border); background: var(--surface); color: var(--text2); border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* 儲存庫卡片 */
+        .repo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+        .repo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.35s; position: relative; overflow: hidden; }
+        .repo-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient1); opacity: 0; transition: opacity 0.3s; }
+        .repo-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+        .repo-card:hover::before { opacity: 1; }
+        .repo-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .repo-icon { font-size: 1.2rem; }
+        .repo-name { font-size: 1.15rem; font-weight: 600; }
+        .repo-name a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        .repo-name a:hover { color: #79c0ff; }
+        .repo-desc { color: var(--text2); font-size: 0.9rem; margin-bottom: 16px; min-height: 40px; }
+        .repo-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--text2); }
+        .lang-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .repo-topics { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+        .topic-tag { padding: 3px 10px; background: rgba(88,166,255,0.1); color: var(--accent); border-radius: 12px; font-size: 0.75rem; }
+        .category-badge { padding: 3px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* 頁尾 */
+        footer { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 0.85rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        /* 動畫 */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .repo-grid { grid-template-columns: 1fr; }
+            .stats { gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 英雄區域 -->
+    <header class="hero">
+        <img class="avatar" src="https://avatars.githubusercontent.com/u/63779526?v=4" alt="shhuangmust avatar">
+        <h1>shhuangmust</h1>
+        <p class="subtitle">GitHub 開發者 ・ 教育工作者 ・ AI / ML 愛好者</p>
+        <div class="stats">
+            <div class="stat"><div class="stat-num">16</div><div class="stat-label">儲存庫</div></div>
+            <div class="stat"><div class="stat-num">20</div><div class="stat-label">追蹤者</div></div>
+            <div class="stat"><div class="stat-num">130+</div><div class="stat-label">Forks</div></div>
+        </div>
+        <a class="github-btn" href="https://github.com/shhuangmust" target="_blank">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            前往 GitHub
+        </a>
+    </header>
+
+    <!-- 儲存庫列表 -->
+    <main class="container">
+        <h2 class="section-title">📦 所有儲存庫</h2>
+        <p class="section-desc">涵蓋 AI、機器學習、網頁開發、大數據等多個領域</p>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="ai-ml">AI / ML</button>
+            <button class="filter-btn" data-filter="web">網頁開發</button>
+            <button class="filter-btn" data-filter="data">資料科學</button>
+            <button class="filter-btn" data-filter="other">其他</button>
+        </div>
+
+        <div class="repo-grid" id="repoGrid"></div>
+    </main>
+
+    <footer>
+        <p>由 ✨ AI 自動產生 ・ 資料來源 <a href="https://github.com/shhuangmust" target="_blank">GitHub API</a> ・ 最後更新 2026-05-20</p>
+    </footer>
+
+<script>
+/* 語言顏色對照 */
+const langColors = {
+    'HTML': '#e34c26', 'PHP': '#4F5D95', 'Jupyter Notebook': '#DA5B0B',
+    'Shell': '#89e051', 'Python': '#3572A5', 'JavaScript': '#f1e05a',
+};
+
+/* 分類函式 */
+function getCategory(name) {
+    const aiML = ['AI', 'MachineLearning', 'LLM', 'NLP', 'Detectron2', 'opencv'];
+    const web = ['html', 'php', 'HackMD', 'HD', 'Hello_world', 'Agentic-Coding'];
+    const data = ['bigdata', 'python', 'CloudComputing'];
+    if (aiML.includes(name)) return 'ai-ml';
+    if (web.includes(name)) return 'web';
+    if (data.includes(name)) return 'data';
+    return 'other';
+}
+
+const catStyles = {
+    'ai-ml': { label: '🤖 AI / ML', bg: 'rgba(210,168,255,0.15)', color: '#d2a8ff' },
+    'web':   { label: '🌐 網頁開發', bg: 'rgba(88,166,255,0.15)', color: '#58a6ff' },
+    'data':  { label: '📊 資料科學', bg: 'rgba(63,185,80,0.15)', color: '#3fb950' },
+    'other': { label: '📁 其他', bg: 'rgba(247,129,102,0.15)', color: '#f78166' },
+};
+
+/* 儲存庫描述 */
+const descriptions = {
+    'Agentic-Coding': 'Agentic Coding 相關教學範例與實作專案',
+    'MachineLearning': '機器學習課程教材，包含監督式與非監督式學習範例',
+    'php': 'PHP 程式設計課程教材與練習專案',
+    'LLM': '大型語言模型 (LLM) 相關的教學筆記與實作',
+    'AI': '人工智慧課程教材，涵蓋深度學習、電腦視覺等主題',
+    'html': 'HTML/CSS 網頁設計課程教材與範例程式碼',
+    'HD': '網頁開發相關練習與專案',
+    'CloudComputing': '雲端運算課程相關教材',
+    'HackMD': '使用 HackMD 撰寫的技術筆記與文件',
+    'Hello_world': '我的第一個儲存庫練習',
+    'bigdata': '大數據分析課程教材與工具腳本',
+    'NLP': '自然語言處理課程教材與實作',
+    'github': 'GitHub 操作教學與練習',
+    'python': 'Python 程式設計課程教材與 Notebook 範例',
+    'opencv': 'OpenCV 電腦視覺影像處理教學與實作',
+    'Detectron2': 'Facebook Detectron2 物件偵測框架教學',
+};
+
+/* 儲存庫資料 */
+const repos = [
+    { name:'Agentic-Coding', lang:'HTML', forks:0, stars:0, url:'https://github.com/shhuangmust/Agentic-Coding', updated:'2026-04-20' },
+    { name:'MachineLearning', lang:'Jupyter Notebook', forks:3, stars:0, url:'https://github.com/shhuangmust/MachineLearning', updated:'2026-04-19' },
+    { name:'php', lang:'PHP', forks:19, stars:0, url:'https://github.com/shhuangmust/php', updated:'2026-03-16' },
+    { name:'LLM', lang:'Jupyter Notebook', forks:0, stars:0, url:'https://github.com/shhuangmust/LLM', updated:'2026-02-23' },
+    { name:'AI', lang:'Jupyter Notebook', forks:32, stars:0, url:'https://github.com/shhuangmust/AI', updated:'2025-12-18' },
+    { name:'html', lang:'HTML', forks:13, stars:0, url:'https://github.com/shhuangmust/html', updated:'2025-12-10' },
+    { name:'HD', lang:'HTML', forks:1, stars:0, url:'https://github.com/shhuangmust/HD', updated:'2024-06-04' },
+    { name:'CloudComputing', lang:null, forks:0, stars:0, url:'https://github.com/shhuangmust/CloudComputing', updated:'2023-06-30' },
+    { name:'HackMD', lang:'HTML', forks:0, stars:0, url:'https://github.com/shhuangmust/HackMD', updated:'2023-06-02' },
+    { name:'Hello_world', lang:'HTML', forks:13, stars:0, url:'https://github.com/shhuangmust/Hello_world', updated:'2024-05-23' },
+    { name:'bigdata', lang:'Shell', forks:2, stars:0, url:'https://github.com/shhuangmust/bigdata', updated:'2022-12-28' },
+    { name:'NLP', lang:null, forks:0, stars:0, url:'https://github.com/shhuangmust/NLP', updated:'2022-06-09' },
+    { name:'github', lang:null, forks:0, stars:0, url:'https://github.com/shhuangmust/github', updated:'2022-06-09' },
+    { name:'python', lang:'Jupyter Notebook', forks:22, stars:0, url:'https://github.com/shhuangmust/python', updated:'2022-06-13' },
+    { name:'opencv', lang:'Jupyter Notebook', forks:1, stars:0, url:'https://github.com/shhuangmust/opencv', updated:'2022-06-09' },
+    { name:'Detectron2', lang:'Jupyter Notebook', forks:2, stars:0, url:'https://github.com/shhuangmust/Detectron2', updated:'2022-10-07' },
+];
+
+/* 渲染卡片 */
+function renderCards(filter) {
+    const grid = document.getElementById('repoGrid');
+    grid.innerHTML = '';
+    repos.forEach((r, i) => {
+        const cat = getCategory(r.name);
+        if (filter !== 'all' && cat !== filter) return;
+        const cs = catStyles[cat];
+        const langDot = r.lang ? `<span class="lang-dot" style="background:${langColors[r.lang]||'#8b949e'}"></span><span>${r.lang}</span>` : '';
+        const card = document.createElement('div');
+        card.className = 'repo-card fade-in';
+        card.style.transitionDelay = `${i * 0.05}s`;
+        card.innerHTML = `
+            <div class="repo-header">
+                <span class="repo-icon">📂</span>
+                <span class="repo-name"><a href="${r.url}" target="_blank">${r.name}</a></span>
+                <span class="category-badge" style="background:${cs.bg};color:${cs.color};margin-left:auto">${cs.label}</span>
+            </div>
+            <p class="repo-desc">${descriptions[r.name] || '暫無描述'}</p>
+            <div class="repo-meta">
+                ${langDot ? `<span class="meta-item">${langDot}</span>` : ''}
+                <span class="meta-item">🍴 ${r.forks}</span>
+                <span class="meta-item">📅 ${r.updated}</span>
+            </div>`;
+        grid.appendChild(card);
+        requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
+    });
+}
+
+/* 篩選器事件 */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCards(btn.dataset.filter);
+    });
+});
+
+/* 粒子動畫 */
+(function createParticles() {
+    const c = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const s = Math.random() * 6 + 2;
+        p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*15}s;animation-duration:${15+Math.random()*20}s;`;
+        c.appendChild(p);
+    }
+})();
+
+/* 初始渲染 */
+renderCards('all');
+</script>
+</body>
+</html>
