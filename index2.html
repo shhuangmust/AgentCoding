@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shhuangmust — GitHub Portfolio</title>
+    <meta name="description" content="shhuangmust 的 GitHub 個人作品集，展示 AI、機器學習、網頁開發等技術領域的開源儲存庫">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           設計系統 — 淺色專業風格
+           風格: Minimalism + Soft UI Evolution
+           色彩: 淺色背景 + 專業藍強調
+           字型: Space Grotesk + DM Sans
+           ============================================ */
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --primary-subtle: #DBEAFE;
+            --primary-glow: rgba(59,130,246,0.12);
+            --accent: #7C3AED;
+            --accent-subtle: #EDE9FE;
+            --bg: #F8FAFC;
+            --bg-white: #FFFFFF;
+            --bg-subtle: #F1F5F9;
+            --fg: #0F172A;
+            --fg-secondary: #334155;
+            --fg-muted: #64748B;
+            --fg-light: #94A3B8;
+            --border: #E2E8F0;
+            --border-hover: #CBD5E1;
+            --success: #059669;
+            --success-subtle: #ECFDF5;
+            --warning: #D97706;
+            --destructive: #DC2626;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 頂部裝飾漸層 --- */
+        .top-gradient {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 400px;
+            background: linear-gradient(180deg, rgba(219,234,254,0.5) 0%, rgba(248,250,252,0) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* --- 導覽列 --- */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 14px 24px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow 0.3s;
+        }
+        .navbar.scrolled { box-shadow: var(--shadow-sm); }
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--fg);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .navbar-links { display: flex; gap: 28px; align-items: center; }
+        .navbar-links a {
+            color: var(--fg-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar-links a:hover { color: var(--primary); }
+        .navbar-links .btn-nav {
+            padding: 8px 18px;
+            background: var(--fg);
+            color: var(--bg-white);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.25s var(--ease-out);
+        }
+        .navbar-links .btn-nav:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* --- Hero --- */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 140px 24px 80px;
+            display: flex;
+            align-items: center;
+            gap: 64px;
+        }
+        .hero-left { flex: 1; }
+        .hero-right {
+            flex-shrink: 0;
+            position: relative;
+        }
+        .hero-avatar-wrap {
+            position: relative;
+            width: 220px; height: 220px;
+        }
+        .hero-avatar {
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--bg-white);
+            box-shadow: var(--shadow-xl), 0 0 0 1px var(--border);
+            position: relative;
+            z-index: 2;
+        }
+        .avatar-decor {
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            border: 2px dashed var(--border-hover);
+            animation: rotate-slow 30s linear infinite;
+        }
+        .avatar-decor::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: 50%;
+            width: 10px; height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        @keyframes rotate-slow { to { transform: rotate(360deg); } }
+
+        /* 裝飾幾何圖形 */
+        .hero-shapes {
+            position: absolute;
+            inset: -60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+        .shape-1 { width: 300px; height: 300px; background: var(--primary); top: -40px; right: -60px; }
+        .shape-2 { width: 180px; height: 180px; background: var(--accent); bottom: -30px; left: -40px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--success-subtle);
+            border: 1px solid rgba(5,150,105,0.2);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .badge-dot {
+            width: 6px; height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--fg);
+            margin-bottom: 16px;
+        }
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--fg-secondary);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            max-width: 520px;
+        }
+
+        /* 統計橫條 */
+        .hero-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        .hero-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s var(--ease-out);
+        }
+        .hero-stat:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md), 0 0 0 3px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+        .hero-stat-val {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            font-weight: 500;
+        }
+
+        .cta-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-out);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-outline {
+            background: var(--bg-white);
+            color: var(--fg);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary-light);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn svg { width: 18px; height: 18px; }
+
+        /* --- 主要區域 --- */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 700;
+            color: var(--fg);
+            margin-bottom: 8px;
+        }
+        .section-header p { color: var(--fg-muted); font-size: 1rem; }
+        .section-line {
+            width: 48px; height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+            margin: 14px auto 0;
+        }
+
+        /* --- 分類篩選 --- */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        .filter-btn {
+            padding: 8px 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            color: var(--fg-muted);
+            border-radius: 100px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.25s var(--ease-out);
+        }
+        .filter-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        /* --- 卡片網格 --- */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- 卡片 --- */
+        .repo-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all 0.3s var(--ease-out);
+            position: relative;
+            overflow: hidden;
+        }
+        .repo-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .repo-card[data-cat="ai-ml"]::before { background: linear-gradient(90deg, #7C3AED, #A78BFA); }
+        .repo-card[data-cat="web"]::before { background: linear-gradient(90deg, #2563EB, #60A5FA); }
+        .repo-card[data-cat="data"]::before { background: linear-gradient(90deg, #059669, #34D399); }
+        .repo-card[data-cat="other"]::before { background: linear-gradient(90deg, #D97706, #FBBF24); }
+
+        .repo-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+        .repo-card:hover::before { opacity: 1; }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+        .card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+        .card-icon {
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .card-icon.ai-ml { background: var(--accent-subtle); }
+        .card-icon.web { background: var(--primary-subtle); }
+        .card-icon.data { background: var(--success-subtle); }
+        .card-icon.other { background: #FEF3C7; }
+
+        .card-name {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        .card-name a {
+            color: var(--fg);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .card-name a:hover { color: var(--primary); }
+
+        .card-tag {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .card-tag.ai-ml { background: var(--accent-subtle); color: #6D28D9; }
+        .card-tag.web { background: var(--primary-subtle); color: var(--primary); }
+        .card-tag.data { background: var(--success-subtle); color: var(--success); }
+        .card-tag.other { background: #FEF3C7; color: var(--warning); }
+
+        .card-desc {
+            color: var(--fg-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            min-height: 44px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--bg-subtle);
+            flex-wrap: wrap;
+        }
+        .meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+        .lang-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* --- 技術棧 --- */
+        .tech-section { margin-top: 80px; }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+        }
+        .tech-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px 16px;
+            text-align: center;
+            transition: all 0.25s var(--ease-out);
+        }
+        .tech-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        .tech-emoji { font-size: 2rem; margin-bottom: 8px; }
+        .tech-name {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--fg);
+            margin-bottom: 4px;
+        }
+        .tech-info { font-size: 0.8rem; color: var(--fg-muted); }
+
+        /* --- 頁尾 --- */
+        .site-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 24px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-white);
+        }
+        .footer-text { color: var(--fg-muted); font-size: 0.85rem; }
+        .footer-text a { color: var(--primary); text-decoration: none; }
+        .footer-text a:hover { text-decoration: underline; }
+
+        /* --- Scroll Reveal --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* --- RWD --- */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 110px 20px 40px;
+                gap: 32px;
+            }
+            .hero-desc { margin-left: auto; margin-right: auto; }
+            .hero-stats { justify-content: center; }
+            .cta-group { justify-content: center; }
+            .hero-avatar-wrap { width: 160px; height: 160px; }
+            .hero-avatar { width: 150px; height: 150px; }
+            .repo-grid { grid-template-columns: 1fr; }
+            .navbar-links .nav-text { display: none; }
+            .hero-shapes { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-gradient"></div>
+
+    <!-- 導覽列 -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="navbar-logo">
+                <span class="logo-icon">SH</span>
+                shhuangmust
+            </a>
+            <div class="navbar-links">
+                <a href="#repos" class="nav-text">儲存庫</a>
+                <a href="#tech" class="nav-text">技術棧</a>
+                <a href="https://github.com/shhuangmust" target="_blank" class="btn-nav">GitHub ↗</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero" id="hero">
+        <div class="hero-left">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                開放原始碼開發者
+            </div>
+            <h1>嗨，我是<br><span class="highlight">shhuangmust</span></h1>
+            <p class="hero-desc">
+                一位熱衷於 AI、機器學習與網頁開發的教育工作者。
+                透過 GitHub 分享教學資源與開源專案，涵蓋深度學習、自然語言處理、電腦視覺等前沿領域。
+            </p>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-val">16</span>
+                    <span class="hero-stat-label">儲存庫</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-val">20</span>
+                    <span class="hero-stat-label">追蹤者</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-val">130+</span>
+                    <span class="hero-stat-label">Forks</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-val">6+</span>
+                    <span class="hero-stat-label">年經驗</span>
+                </div>
+            </div>
+
+            <div class="cta-group">
+                <a class="btn btn-primary" href="https://github.com/shhuangmust" target="_blank">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    前往 GitHub
+                </a>
+                <a class="btn btn-outline" href="#repos">探索專案 ↓</a>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+            </div>
+            <div class="hero-avatar-wrap">
+                <img class="hero-avatar" src="https://avatars.githubusercontent.com/u/63779526?v=4" alt="shhuangmust" width="200" height="200">
+                <div class="avatar-decor"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 儲存庫 -->
+    <main class="main-content">
+        <section id="repos">
+            <div class="section-header reveal">
+                <h2>開源儲存庫</h2>
+                <p>涵蓋 AI、機器學習、網頁開發、大數據等多個技術領域</p>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="filters reveal">
+                <button class="filter-btn active" data-filter="all">全部 (16)</button>
+                <button class="filter-btn" data-filter="ai-ml">🤖 AI / ML</button>
+                <button class="filter-btn" data-filter="web">🌐 網頁開發</button>
+                <button class="filter-btn" data-filter="data">📊 資料科學</button>
+                <button class="filter-btn" data-filter="other">📁 其他</button>
+            </div>
+
+            <div class="repo-grid" id="repoGrid"></div>
+        </section>
+
+        <section class="tech-section" id="tech">
+            <div class="section-header reveal">
+                <h2>技術棧</h2>
+                <p>橫跨多種程式語言與技術框架</p>
+                <div class="section-line"></div>
+            </div>
+            <div class="tech-grid reveal">
+                <div class="tech-card"><div class="tech-emoji">📓</div><div class="tech-name">Jupyter Notebook</div><div class="tech-info">7 個儲存庫</div></div>
+                <div class="tech-card"><div class="tech-emoji">🌐</div><div class="tech-name">HTML</div><div class="tech-info">5 個儲存庫</div></div>
+                <div class="tech-card"><div class="tech-emoji">🐘</div><div class="tech-name">PHP</div><div class="tech-info">1 個儲存庫</div></div>
+                <div class="tech-card"><div class="tech-emoji">🐍</div><div class="tech-name">Python</div><div class="tech-info">AI / ML 核心</div></div>
+                <div class="tech-card"><div class="tech-emoji">🐚</div><div class="tech-name">Shell</div><div class="tech-info">1 個儲存庫</div></div>
+                <div class="tech-card"><div class="tech-emoji">☁️</div><div class="tech-name">Cloud</div><div class="tech-info">雲端運算</div></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="footer-text">
+            以 ♥ 打造 · 設計靈感來自
+            <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank">UI/UX Pro Max Skill</a>
+            · 資料來源
+            <a href="https://github.com/shhuangmust" target="_blank">GitHub API</a>
+            · 2026
+        </p>
+    </footer>
+
+<script>
+const langColors = {
+    'HTML': '#e34c26', 'PHP': '#4F5D95', 'Jupyter Notebook': '#DA5B0B',
+    'Shell': '#89e051', 'Python': '#3572A5', 'JavaScript': '#f1e05a',
+};
+
+function getCategory(n) {
+    const m = {
+        'AI':'ai-ml','MachineLearning':'ai-ml','LLM':'ai-ml','NLP':'ai-ml','Detectron2':'ai-ml','opencv':'ai-ml',
+        'html':'web','php':'web','HackMD':'web','HD':'web','Hello_world':'web','Agentic-Coding':'web',
+        'bigdata':'data','python':'data','CloudComputing':'data',
+    };
+    return m[n]||'other';
+}
+
+const catMeta = {
+    'ai-ml': { label: 'AI / ML', icon: '🤖' },
+    'web':   { label: '網頁開發', icon: '🌐' },
+    'data':  { label: '資料科學', icon: '📊' },
+    'other': { label: '其他', icon: '📁' },
+};
+
+const desc = {
+    'Agentic-Coding': 'Agentic Coding 教學範例與實作，探索 AI 驅動的程式開發',
+    'MachineLearning': '機器學習課程教材，涵蓋監督式、非監督式學習與深度學習',
+    'php': 'PHP 程式設計課程教材與練習，後端 Web 開發入門',
+    'LLM': '大型語言模型 (LLM) 教學筆記，探索 GPT 等前沿技術',
+    'AI': '人工智慧課程教材，涵蓋深度學習、電腦視覺、神經網路等',
+    'html': 'HTML / CSS 網頁設計課程教材與前端開發範例',
+    'HD': '網頁開發專案練習與實驗性作品',
+    'CloudComputing': '雲端運算課程教材，學習雲端架構與服務',
+    'HackMD': '使用 HackMD 撰寫的技術筆記與協作文件',
+    'Hello_world': '我的第一個 GitHub 儲存庫練習 — 旅程的起點',
+    'bigdata': '大數據分析課程教材，包含資料處理工具與腳本',
+    'NLP': '自然語言處理課程教材，文本分析與語言模型實作',
+    'github': 'GitHub 操作教學，版本控制與協作開發實務',
+    'python': 'Python 程式設計課程教材，包含豐富的 Notebook 範例',
+    'opencv': 'OpenCV 電腦視覺影像處理教學，從基礎到進階',
+    'Detectron2': 'Facebook Detectron2 物件偵測框架教學與模型訓練',
+};
+
+const repos = [
+    { name:'Agentic-Coding', lang:'HTML', forks:0, url:'https://github.com/shhuangmust/Agentic-Coding', updated:'2026-04-20' },
+    { name:'MachineLearning', lang:'Jupyter Notebook', forks:3, url:'https://github.com/shhuangmust/MachineLearning', updated:'2026-04-19' },
+    { name:'php', lang:'PHP', forks:19, url:'https://github.com/shhuangmust/php', updated:'2026-03-16' },
+    { name:'LLM', lang:'Jupyter Notebook', forks:0, url:'https://github.com/shhuangmust/LLM', updated:'2026-02-23' },
+    { name:'AI', lang:'Jupyter Notebook', forks:32, url:'https://github.com/shhuangmust/AI', updated:'2025-12-18' },
+    { name:'html', lang:'HTML', forks:13, url:'https://github.com/shhuangmust/html', updated:'2025-12-10' },
+    { name:'HD', lang:'HTML', forks:1, url:'https://github.com/shhuangmust/HD', updated:'2024-06-04' },
+    { name:'CloudComputing', lang:null, forks:0, url:'https://github.com/shhuangmust/CloudComputing', updated:'2023-06-30' },
+    { name:'HackMD', lang:'HTML', forks:0, url:'https://github.com/shhuangmust/HackMD', updated:'2023-06-02' },
+    { name:'Hello_world', lang:'HTML', forks:13, url:'https://github.com/shhuangmust/Hello_world', updated:'2022-05-23' },
+    { name:'bigdata', lang:'Shell', forks:2, url:'https://github.com/shhuangmust/bigdata', updated:'2022-12-28' },
+    { name:'NLP', lang:null, forks:0, url:'https://github.com/shhuangmust/NLP', updated:'2022-06-09' },
+    { name:'github', lang:null, forks:0, url:'https://github.com/shhuangmust/github', updated:'2022-06-09' },
+    { name:'python', lang:'Jupyter Notebook', forks:22, url:'https://github.com/shhuangmust/python', updated:'2022-06-13' },
+    { name:'opencv', lang:'Jupyter Notebook', forks:1, url:'https://github.com/shhuangmust/opencv', updated:'2022-06-09' },
+    { name:'Detectron2', lang:'Jupyter Notebook', forks:2, url:'https://github.com/shhuangmust/Detectron2', updated:'2022-10-07' },
+];
+
+function renderCards(filter) {
+    const grid = document.getElementById('repoGrid');
+    grid.innerHTML = '';
+    let d = 0;
+    repos.forEach(r => {
+        const cat = getCategory(r.name);
+        if (filter !== 'all' && cat !== filter) return;
+        const cm = catMeta[cat];
+        const card = document.createElement('div');
+        card.className = 'repo-card reveal';
+        card.dataset.cat = cat;
+        card.style.transitionDelay = `${d * 50}ms`;
+        d++;
+        const langHTML = r.lang
+            ? `<span class="meta"><span class="lang-dot" style="background:${langColors[r.lang]||'#94A3B8'}"></span>${r.lang}</span>`
+            : '';
+        card.innerHTML = `
+            <div class="card-header">
+                <div class="card-title-group">
+                    <div class="card-icon ${cat}">${cm.icon}</div>
+                    <span class="card-name"><a href="${r.url}" target="_blank" rel="noopener">${r.name}</a></span>
+                </div>
+                <span class="card-tag ${cat}">${cm.label}</span>
+            </div>
+            <p class="card-desc">${desc[r.name]||'暫無描述'}</p>
+            <div class="card-footer">
+                ${langHTML}
+                <span class="meta">🍴 ${r.forks} forks</span>
+                <span class="meta">📅 ${r.updated}</span>
+            </div>`;
+        grid.appendChild(card);
+    });
+    requestAnimationFrame(() => {
+        document.querySelectorAll('.repo-card.reveal').forEach(el => observer.observe(el));
+    });
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCards(btn.dataset.filter);
+    });
+});
+
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+renderCards('all');
+</script>
+</body>
+</html>
